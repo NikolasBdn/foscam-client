@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>RTSP WebPlayer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="content">
+    <canvas id="canvas" height="720" width="1280"></canvas>
+
+    <div id="deplacements">
+      <div class="arrow" type="button" name="ul" id="ul"></div>
+      <div class="arrow" type="button" name="up" id="up"></div>
+      <div class="arrow" type="button" name="ur" id="ur"></div>
+      <div class="arrow" type="button" name="right"id="right"></div>
+      <div class="arrow" type="button" name="O"id="O"></div>
+      <div class="arrow" type="button" name="dl" id="dl"></div>
+      <div class="arrow" type="button" name="down" id="down"></div>
+      <div class="arrow" type="button" name="dr" id="dr"></div>
+      <div class="arrow" type="button" name="left" id="left"></div>
+    </div>
+
+
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+  <script src="player.js"></script>
+</body>
+</html>

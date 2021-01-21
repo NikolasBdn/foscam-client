@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <canvas height="720" width="1280" id="canvas"></canvas>
+    <!-- <button id="snapshotBtn">snapshot</button> -->
+
+    <script>
+        var fragments = [];
+        var frames = [];
+        var ws = new WebSocket('ws://127.0.0.1:4001');
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        var reader = new FileReader();
+
+        ws.binaryType = 'arraybuffer';
+
+        ws.onmessage = function(data) {
+          fragments.push(data.data);
+
+          if (
+            fragments.length > 2 &&
+            data.data.byteLength !== fragments[fragments.length - 2].byteLength
+          ) {
+            draw();
+            fragments = [];
+          }
+        }
+
+        reader.onload = function(e) {
+          var image = new Image();
+          image.src = e.target.result;
+          image.onload = function() {
+            try {
+              ctx.drawImage(image, 0, 0);
+            } catch(e) {
+              console.log('bad image');
+            }
+          }
+        }
+
+        function draw() {
+          var bytes = fragments.map(function(f) { return new Uint8Array(f).buffer; });
+          var blob = new Blob(bytes, { type: 'image/jpg' });
+
+          frames.push(blob);
+          try {
+            reader.readAsDataURL(blob);
+          } catch (e) {
+            console.log('error');
+          }
+        }
+
+        // var snapshotBtn = document.getElementById('snapshotBtn');
+        // snapshotBtn.addEventListener('click', function() {
+        //   var a = document.createElement('a');
+        //   var lastFrame = frames[frames.length - 1];
+        //   var url = window.URL.createObjectURL(lastFrame);
+        //
+        //   a.href = url;
+        //   a.download = 'snapshot.jpg';
+        //   a.style.display = 'none';
+        //   document.body.appendChild(a);
+        //   a.click();
+        // });
+      </script>
+
+  </body>
+</html>
